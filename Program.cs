@@ -11,6 +11,7 @@ builder.Services.AddScoped<ICapstoneServices, CapstoneService>();
 builder.Services.AddScoped<IGeneratorService, GeneratorService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IRatingsService, RatingsService>();
+builder.Services.AddScoped<IActivityLogsService, ActivityLogsService>();
 
 
 // Add services to the container.

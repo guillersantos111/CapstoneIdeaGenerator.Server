@@ -1,5 +1,31 @@
 [
   {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsController",
+    "Method": "GetActivityLogs",
+    "RelativePath": "api/ActivityLogs/get",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsController",
+    "Method": "LogActivity",
+    "RelativePath": "api/ActivityLogs/post",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "activityLogDTO",
+        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.ActivityLogsDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "RemoveAccount",
     "RelativePath": "api/Authentication/{id}",

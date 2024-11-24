@@ -38,7 +38,6 @@ namespace CapstoneIdeaGenerator.Server.Entities.Models
 
         [SwaggerIgnore]
         [JsonIgnore]
-        [IgnoreDataMember]
         public ICollection<Ratings>? Ratings { get; set; } = new List<Ratings>();
 
     }

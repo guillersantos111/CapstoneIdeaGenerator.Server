@@ -23,7 +23,7 @@ public class AuthenticationService : IAuthenticationService
 
     public string Login(AuthRequest request)
     {
-        var admin = dbContext.Admin.FirstOrDefault(a => a.Email == request.Email && a.Password == request.Password);
+        var admin = dbContext.Admins.FirstOrDefault(a => a.Email == request.Email && a.Password == request.Password);
 
         if (admin == null)
         {
@@ -39,7 +39,7 @@ public class AuthenticationService : IAuthenticationService
 
     public string ForgotPassword(string email)
     {
-        var admin = dbContext.Admin.FirstOrDefault(a => a.Email == email);
+        var admin = dbContext.Admins.FirstOrDefault(a => a.Email == email);
 
         if (admin == null)
         {
@@ -65,20 +65,20 @@ public class AuthenticationService : IAuthenticationService
 
     public bool Register(Admin admin)
     {
-        if (dbContext.Admin.Any(a => a.Email == admin.Email))
+        if (dbContext.Admins.Any(a => a.Email == admin.Email))
         {
             return false;
         }
 
         admin.Token = GenerateToken();
-        dbContext.Admin.Add(admin);
+        dbContext.Admins.Add(admin);
         dbContext.SaveChanges();
         return true;
     }
 
     public bool ResetPassword(string email, string newPassword, string resetToken)
     {
-        var admin = dbContext.Admin.FirstOrDefault(u => u.Email == email && u.Token == resetToken);
+        var admin = dbContext.Admins.FirstOrDefault(u => u.Email == email && u.Token == resetToken);
 
         if (admin == null)
         {
@@ -95,19 +95,19 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<IEnumerable<Admin>> GetAllAccounts()
     {
-        return await dbContext.Admin.ToListAsync();
+        return await dbContext.Admins.ToListAsync();
     }
 
     public async Task<bool> RemoveAccount(int id)
     {
-        var account = await dbContext.Admin.FindAsync(id);
+        var account = await dbContext.Admins.FindAsync(id);
 
         if (account == null)
         {
             return false;
         }
 
-        dbContext.Admin.Remove(account);
+        dbContext.Admins.Remove(account);
         await dbContext.SaveChangesAsync();
         return true;
     }
