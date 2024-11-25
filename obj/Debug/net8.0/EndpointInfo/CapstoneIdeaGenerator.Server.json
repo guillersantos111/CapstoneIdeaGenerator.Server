@@ -582,13 +582,38 @@
   },
   "components": {
     "schemas": {
-      "ActivityLogsDTO": {
+      "ActivityLogs": {
         "type": "object",
         "properties": {
           "activityLogId": {
             "type": "string",
             "format": "uuid"
           },
+          "adminId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "actions": {
+            "type": "string",
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "admin": {
+            "$ref": "#/components/schemas/Admin"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActivityLogsDTO": {
+        "type": "object",
+        "properties": {
           "adminId": {
             "type": "integer",
             "format": "int32"
@@ -644,6 +669,13 @@
           },
           "token": {
             "type": "string",
+            "nullable": true
+          },
+          "activityLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityLogs"
+            },
             "nullable": true
           }
         },

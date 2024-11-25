@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CapstoneIdeaGenerator.Server.Entities.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
 {
@@ -23,5 +24,7 @@ namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
         public string Password { get; set; } = string.Empty;
 
         public string Token { get; set; } = string.Empty;
+
+        public ICollection<ActivityLogs> ActivityLogs { get; set; }
     }
 }

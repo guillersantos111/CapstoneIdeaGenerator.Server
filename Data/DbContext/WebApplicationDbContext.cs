@@ -17,13 +17,13 @@ namespace CapstoneIdeaGenerator.Server.Data.DbContext
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ActivityLogs>()
-                .HasKey(a => a.ActivityLogId);
+                .HasKey(al => al.ActivityLogId);
 
             builder.Entity<ActivityLogs>()
-                .HasOne(a => a.Admin)
-                .WithMany()
-                .HasForeignKey(a => a.AdminId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(al => al.Admin)
+                .WithMany(a => a.ActivityLogs)
+                .HasForeignKey(al => al.AdminId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Admin>()
                 .HasKey(u => u.AdminId);

@@ -12,6 +12,7 @@ namespace CapstoneIdeaGenerator.Server.Entities.Models
         public string Name { get; set; }
         public string Actions { get; set; }
         public DateTime Timestamp { get; set; }
+
         public Admin Admin { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CapstoneIdeaGenerator.Server.Data.DbContext;
+using CapstoneIdeaGenerator.Server.Entities.AuthenticationModels;
 using CapstoneIdeaGenerator.Server.Entities.DTOs;
 using CapstoneIdeaGenerator.Server.Entities.Models;
 using CapstoneIdeaGenerator.Server.Services.Interfaces;
@@ -10,6 +11,7 @@ namespace CapstoneIdeaGenerator.Server.Services
     public class ActivityLogsService : IActivityLogsService
     {
         private readonly WebApplicationDbContext dbContext;
+        private Admin admin;
 
         public ActivityLogsService(WebApplicationDbContext dbContext)
         {
@@ -18,8 +20,8 @@ namespace CapstoneIdeaGenerator.Server.Services
 
         public async Task LogActivity([FromBody] ActivityLogsDTO activityLogsDTO)
         {
-            var admin = await dbContext.Admins.FindAsync(activityLogsDTO.AdminId);
-            if (admin == null)
+            var adminExists = await dbContext.Admins.AnyAsync(a => a.AdminId == activityLogsDTO.AdminId);
+            if (!adminExists)
             {
                 throw new Exception("Admin not found");
             }
@@ -27,17 +29,16 @@ namespace CapstoneIdeaGenerator.Server.Services
             var activityLog = new ActivityLogs
             {
                 AdminId = activityLogsDTO.AdminId,
-                Name = activityLogsDTO.Name,
+                Name = admin.Name,
                 Actions = activityLogsDTO.Actions,
-                Timestamp = activityLogsDTO.Timestamp,
-                Admin = admin
+                Timestamp = DateTime.UtcNow
             };
 
             dbContext.ActivityLogs.Add(activityLog);
             await dbContext.SaveChangesAsync();
         }
 
-        // Get all activity logs
+
         public async Task<List<ActivityLogsDTO>> GetActivityLogsAsync()
         {
             return await dbContext.ActivityLogs
