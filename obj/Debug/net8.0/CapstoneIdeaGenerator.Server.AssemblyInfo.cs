@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CapstoneIdeaGenerator.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d3fda68610ea6042f0abcf634b02b2209eead0e8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2489d229a46f078cacc6938a453234d040ff6612")]
 [assembly: System.Reflection.AssemblyProductAttribute("CapstoneIdeaGenerator.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CapstoneIdeaGenerator.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
