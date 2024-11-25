@@ -7,7 +7,7 @@ namespace CapstoneIdeaGenerator.Server.Data.DbContext
     public class WebApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<Capstones> Capstones { get; set; }
-        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Admins> Admins { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
         public DbSet<ActivityLogs> ActivityLogs { get; set; }
 
@@ -25,7 +25,7 @@ namespace CapstoneIdeaGenerator.Server.Data.DbContext
                 .HasForeignKey(al => al.AdminId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Admin>()
+            builder.Entity<Admins>()
                 .HasKey(u => u.AdminId);
 
             builder.Entity<Capstones>()

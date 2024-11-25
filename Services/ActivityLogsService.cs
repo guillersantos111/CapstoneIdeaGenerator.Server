@@ -11,7 +11,7 @@ namespace CapstoneIdeaGenerator.Server.Services
     public class ActivityLogsService : IActivityLogsService
     {
         private readonly WebApplicationDbContext dbContext;
-        private Admin admin;
+        private Admins admin;
 
         public ActivityLogsService(WebApplicationDbContext dbContext)
         {

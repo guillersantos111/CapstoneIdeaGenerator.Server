@@ -13,102 +13,22 @@ using Microsoft.EntityFrameworkCore;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly WebApplicationDbContext dbContext; 
+    private readonly WebApplicationDbContext dbContext;
+    private readonly IHttpContextAccessor httpContextAccessor;
 
-    public AuthenticationService(WebApplicationDbContext dbContext)
+    public AuthenticationService(WebApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
     {
         this.dbContext = dbContext;
+        this.httpContextAccessor = httpContextAccessor;
     }
 
-
-    public string Login(AuthRequest request)
+    public string GetMyName()
     {
-        var admin = dbContext.Admins.FirstOrDefault(a => a.Email == request.Email && a.Password == request.Password);
-
-        if (admin == null)
+        var result = string.Empty;
+        if (httpContextAccessor.HttpContext != null)
         {
-            return null;
+            result = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
         }
-
-        string token = GenerateToken();
-        admin.Token = token;
-        dbContext.SaveChanges();
-
-        return token;
-    }
-
-    public string ForgotPassword(string email)
-    {
-        var admin = dbContext.Admins.FirstOrDefault(a => a.Email == email);
-
-        if (admin == null)
-        {
-            return null;
-        }
-
-        string resetToken = GenerateToken();
-        admin.Token = resetToken;
-        dbContext.SaveChanges();
-
-        return resetToken;
-    }
-
-    private string GenerateToken()
-    {
-        using (var rng = new RNGCryptoServiceProvider())
-        {
-            byte[] tokenBytes = new byte[32]; // 256-bit token
-            rng.GetBytes(tokenBytes);
-            return Convert.ToBase64String(tokenBytes);
-        }
-    }
-
-    public bool Register(Admin admin)
-    {
-        if (dbContext.Admins.Any(a => a.Email == admin.Email))
-        {
-            return false;
-        }
-
-        admin.Token = GenerateToken();
-        dbContext.Admins.Add(admin);
-        dbContext.SaveChanges();
-        return true;
-    }
-
-    public bool ResetPassword(string email, string newPassword, string resetToken)
-    {
-        var admin = dbContext.Admins.FirstOrDefault(u => u.Email == email && u.Token == resetToken);
-
-        if (admin == null)
-        {
-            Console.WriteLine($"ResetPassword failed: No matching admin found for email {email} with token {resetToken}");
-            return false;
-        }
-
-        admin.Password = newPassword;
-        admin.Token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-        dbContext.SaveChanges();
-
-        return true;
-    }
-
-    public async Task<IEnumerable<Admin>> GetAllAccounts()
-    {
-        return await dbContext.Admins.ToListAsync();
-    }
-
-    public async Task<bool> RemoveAccount(int id)
-    {
-        var account = await dbContext.Admins.FindAsync(id);
-
-        if (account == null)
-        {
-            return false;
-        }
-
-        dbContext.Admins.Remove(account);
-        await dbContext.SaveChangesAsync();
-        return true;
+        return result;
     }
 }

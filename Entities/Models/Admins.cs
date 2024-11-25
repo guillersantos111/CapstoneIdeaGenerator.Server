@@ -3,28 +3,29 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
 {
-    public class Admin
+    public class Admins
     {
         [Key]
         public int AdminId { get; set; }
 
-        [Required]
         public string Name { get; set; } = string.Empty;
 
-        [Required]
         public string Gender { get; set; } = string.Empty;
 
-        [Required]
         public string Age { get; set; } = string.Empty;
 
-        [Required]
+        public DateTime DateJoined { get; set; }
+
         public string Email { get; set; } = string.Empty;
 
-        [Required]
-        public string Password { get; set; } = string.Empty;
+        public byte[] PasswordHash { get; set; }
 
-        public string Token { get; set; } = string.Empty;
+        public byte[] PasswordSalt { get; set; }
 
-        public ICollection<ActivityLogs> ActivityLogs { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
+
+        public DateTime TokenCreated { get; set; }
+
+        public DateTime TokenExpires { get; set; }
     }
 }

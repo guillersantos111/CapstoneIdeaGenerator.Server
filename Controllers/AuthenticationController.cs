@@ -1,11 +1,12 @@
-﻿using CapstoneIdeaGenerator.Server.Services;
-using CapstoneIdeaGenerator.Server.Entities.AuthenticationModels;
+﻿using CapstoneIdeaGenerator.Server.Entities.AuthenticationModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using CapstoneIdeaGenerator.Server.Services.Interfaces;
-using CapstoneIdeaGenerator.Server.Data.DbContext;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
+using CapstoneIdeaGenerator.Server.Entities.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace CapstoneIdeaGenerator.Server.Controllers
 {
@@ -13,99 +14,126 @@ namespace CapstoneIdeaGenerator.Server.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationService _authenticationService;
+        public static Admins admin = new Admins();
+        private readonly IConfiguration configuration;
+        private readonly IAuthenticationService authenticationService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, IConfiguration configuration)
         {
-            _authenticationService = authenticationService;
+            this.authenticationService = authenticationService;
+            this.configuration = configuration;
         }
 
+        [HttpGet, Authorize]
+        public ActionResult<string> GetMe()
+        {
+            var userName = authenticationService.GetMyName();
+            return Ok(userName);
+        }
 
         [HttpPost("register")]
-        public IActionResult Register([FromBody] Admin admin)
+        public async Task<ActionResult<Admins>> Register(AdminDTO request)
         {
-            bool result = _authenticationService.Register(admin);
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            admin.Name = request.Name;
+            admin.Gender = request.Gender;
+            admin.Age = request.Age;
+            admin.Email = request.Email;
+            admin.DateJoined = DateTime.UtcNow;
+            admin.PasswordHash = passwordHash;
+            admin.PasswordSalt = passwordSalt;
 
-            if (result)
-            {
-                return Ok("Registration successful.");
-            }
-
-            return BadRequest("Admin already exists.");
+            return Ok(admin);
         }
 
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] AuthRequest request)
+        public async Task<ActionResult<string>> Login(AdminDTO request)
         {
-            string token = _authenticationService.Login(request);
-
-            if (token == null)
+            if (admin.Email != request.Email)
             {
-                return Unauthorized("Invalid credentials.");
+                return BadRequest("Admin Not Found");
             }
 
-            return Ok(new {Message = "Login Successfully", Token = token });
+            if (!VerifyPasswordHash(request.Password, admin.PasswordHash, admin.PasswordSalt))
+            {
+                return BadRequest("Wrong Password");
+            }
+
+            string token = CreateToken(admin);
+
+            var refreshToken = GenerateRefreshToken();
+            SetRefreshToken(refreshToken);
+
+            return Ok(token);
         }
 
 
-        [HttpPost("forgot-password")]
-        public IActionResult ForgotPassword([FromBody] string email)
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            string resetToken = _authenticationService.ForgotPassword(email);
-
-            if (resetToken != null)
+            using (var hmac = new HMACSHA512())
             {
-                return Ok(new {Message = "Password reset token has been generated", Token =  resetToken});
-            }
-
-            return NotFound("Admin not found.");
-        }
-
-
-        [HttpPost("reset-password")]
-        public IActionResult ResetPassword([FromBody] ForgotPassword request)
-        {
-            bool result = _authenticationService.ResetPassword(request.Email, request.NewPassword, request.Token);
-
-            if (result)
-            {
-                return Ok("Password has been reset successfully.");
-            }
-
-            return BadRequest("Invalid token or admin. Ensure that the email and token match the database records.");
-        }
-
-
-        [HttpGet("accounts")]
-        public async Task<ActionResult<IEnumerable<Admin>>> GetAllAccounts()
-        {
-            try
-            {
-                var accounts = await _authenticationService.GetAllAccounts();
-
-                return Ok(accounts);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+                passwordHash = hmac.Key;
+                passwordSalt = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveAccount(int id)
+        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            try
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var account = await _authenticationService.RemoveAccount(id);
-                await _authenticationService.RemoveAccount(id);
-                return Ok();
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
             }
-            catch (Exception ex)
+        }
+
+        private RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
             {
-                return BadRequest(ex.Message);
-            }
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.Now.AddDays(7),
+                Created = DateTime.Now
+            };
+
+            return refreshToken;
+        }
+
+        private void SetRefreshToken(RefreshToken newRefreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = newRefreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+
+            admin.RefreshToken = newRefreshToken.Token;
+            admin.TokenCreated = newRefreshToken.Created;
+            admin.TokenExpires = newRefreshToken.Expires;
+        }
+
+        private string CreateToken(Admins admin)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, admin.Email),
+                new Claim(ClaimTypes.Role, "Admin")
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
         }
     }
 }
