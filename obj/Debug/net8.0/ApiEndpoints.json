@@ -21,6 +21,26 @@
   },
   {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "Method": "GetAllAccounts",
+    "RelativePath": "api/Authentication/accounts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.Admins, CapstoneIdeaGenerator.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "Login",
     "RelativePath": "api/Authentication/login",
     "HttpMethod": "POST",

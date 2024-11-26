@@ -33,4 +33,9 @@ public class AuthenticationService : IAuthenticationService
         }
         return result;
     }
+
+    public async Task<IEnumerable<Admins>> GetAllAccounts()
+    {
+        return await dbContext.Admins.ToListAsync();
+    }
 }

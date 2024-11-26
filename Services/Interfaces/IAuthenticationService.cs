@@ -8,5 +8,6 @@ namespace CapstoneIdeaGenerator.Server.Services.Interfaces
     public interface IAuthenticationService
     {
         string GetMyName();
+        Task<IEnumerable<Admins>> GetAllAccounts();
     }
 }

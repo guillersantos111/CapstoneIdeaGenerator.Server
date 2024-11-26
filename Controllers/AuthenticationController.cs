@@ -80,6 +80,21 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             return Ok(token);
         }
 
+        [HttpGet("accounts")]
+        public async Task<ActionResult<IEnumerable<Admins>>> GetAllAccounts()
+        {
+            try
+            {
+                var accounts = await authenticationService.GetAllAccounts();
+                return Ok(accounts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
