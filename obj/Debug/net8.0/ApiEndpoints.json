@@ -1,57 +1,15 @@
 [
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsController",
-    "Method": "GetActivityLogs",
-    "RelativePath": "api/ActivityLogs/get",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsController",
-    "Method": "LogActivity",
-    "RelativePath": "api/ActivityLogs/post",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "activityLogDTO",
-        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.ActivityLogsDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
-    "Method": "RemoveAccount",
-    "RelativePath": "api/Authentication/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
-    "Method": "GetAllAccounts",
-    "RelativePath": "api/Authentication/accounts",
+    "Method": "GetMe",
+    "RelativePath": "api/Authentication",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.Admin, CapstoneIdeaGenerator.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -63,22 +21,6 @@
   },
   {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
-    "Method": "ForgotPassword",
-    "RelativePath": "api/Authentication/forgot-password",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "Login",
     "RelativePath": "api/Authentication/login",
     "HttpMethod": "POST",
@@ -87,11 +29,21 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.AuthRequest",
+        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.AdminLoginDTO",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
@@ -102,28 +54,22 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "admin",
-        "Type": "CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.Admin",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
-    "Method": "ResetPassword",
-    "RelativePath": "api/Authentication/reset-password",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
         "Name": "request",
-        "Type": "CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.ForgotPassword",
+        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.AdminRegisterDTO",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.Admins",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneController",

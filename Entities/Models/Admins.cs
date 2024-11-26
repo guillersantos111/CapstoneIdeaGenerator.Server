@@ -1,5 +1,6 @@
 ﻿using CapstoneIdeaGenerator.Server.Entities.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
 {
@@ -12,7 +13,7 @@ namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
 
         public string Gender { get; set; } = string.Empty;
 
-        public string Age { get; set; } = string.Empty;
+        public int Age { get; set; }
 
         public DateTime DateJoined { get; set; }
 
@@ -21,11 +22,5 @@ namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
         public byte[] PasswordHash { get; set; }
 
         public byte[] PasswordSalt { get; set; }
-
-        public string RefreshToken { get; set; } = string.Empty;
-
-        public DateTime TokenCreated { get; set; }
-
-        public DateTime TokenExpires { get; set; }
     }
 }

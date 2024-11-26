@@ -10,6 +10,8 @@ using System.Text;
 using CapstoneIdeaGenerator.Server.Data.DbContext;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.EntityFrameworkCore;
+using CapstoneIdeaGenerator.Server.Entities.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 public class AuthenticationService : IAuthenticationService
 {

@@ -7,6 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using CapstoneIdeaGenerator.Server.Entities.DTOs;
+using CapstoneIdeaGenerator.Server.Data.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace CapstoneIdeaGenerator.Server.Controllers
 {
@@ -17,11 +20,13 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         public static Admins admin = new Admins();
         private readonly IConfiguration configuration;
         private readonly IAuthenticationService authenticationService;
+        private readonly WebApplicationDbContext dbContext;
 
-        public AuthenticationController(IAuthenticationService authenticationService, IConfiguration configuration)
+        public AuthenticationController(IAuthenticationService authenticationService, IConfiguration configuration, WebApplicationDbContext dbContext)
         {
             this.authenticationService = authenticationService;
             this.configuration = configuration;
+            this.dbContext = dbContext;
         }
 
         [HttpGet, Authorize]
@@ -32,25 +37,36 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<Admins>> Register(AdminDTO request)
+        public async Task<ActionResult<Admins>> Register(AdminRegisterDTO request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            admin.Name = request.Name;
-            admin.Gender = request.Gender;
-            admin.Age = request.Age;
-            admin.Email = request.Email;
-            admin.DateJoined = DateTime.UtcNow;
-            admin.PasswordHash = passwordHash;
-            admin.PasswordSalt = passwordSalt;
 
-            return Ok(admin);
+            var admin = new Admins
+            {
+                AdminId = request.AdminId,
+                Name = request.Name,
+                Gender = request.Gender,
+                Age = request.Age,
+                Email = request.Email,
+                DateJoined = DateTime.UtcNow,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
+
+            dbContext.Admins.Add(admin);
+            await dbContext.SaveChangesAsync();
+
+            return admin;
         }
 
 
+
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(AdminDTO request)
+        public async Task<ActionResult<string>> Login(AdminLoginDTO request)
         {
-            if (admin.Email != request.Email)
+            var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == request.Email);
+
+            if (admin == null)
             {
                 return BadRequest("Admin Not Found");
             }
@@ -61,30 +77,48 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             }
 
             string token = CreateToken(admin);
-
-            var refreshToken = GenerateRefreshToken();
-            SetRefreshToken(refreshToken);
-
             return Ok(token);
         }
 
 
-        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512())
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
-                passwordHash = hmac.Key;
-                passwordSalt = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
             }
+        }
+
+
+        private string CreateToken(Admins admin)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, admin.Email)
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                configuration.GetSection("AppSettings:Token").Value));
+
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(1), signingCredentials: cred);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
         }
 
         private RefreshToken GenerateRefreshToken()
@@ -97,43 +131,6 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             };
 
             return refreshToken;
-        }
-
-        private void SetRefreshToken(RefreshToken newRefreshToken)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = newRefreshToken.Expires
-            };
-            Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
-
-            admin.RefreshToken = newRefreshToken.Token;
-            admin.TokenCreated = newRefreshToken.Created;
-            admin.TokenExpires = newRefreshToken.Expires;
-        }
-
-        private string CreateToken(Admins admin)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, admin.Email),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds);
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
         }
     }
 }
