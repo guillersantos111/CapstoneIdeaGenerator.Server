@@ -15,12 +15,16 @@ namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
 
         public int Age { get; set; }
 
-        public DateTime DateJoined { get; set; }
+        public DateTime? DateJoined { get; set; } = DateTime.UtcNow;
 
         public string Email { get; set; } = string.Empty;
 
         public byte[] PasswordHash { get; set; }
 
         public byte[] PasswordSalt { get; set; }
+
+        public string? PasswordResetToken { get; set; }
+
+        public DateTime ResetTokenExpires { get; set; } = DateTime.UtcNow;
     }
 }

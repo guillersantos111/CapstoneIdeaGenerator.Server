@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "GetMe",
     "RelativePath": "api/Authentication",
     "HttpMethod": "GET",
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "GetAllAccounts",
     "RelativePath": "api/Authentication/accounts",
     "HttpMethod": "GET",
@@ -29,7 +29,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.Admins, CapstoneIdeaGenerator.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[CapstoneIdeaGenerator.Server.Entities.DTOs.AdminDTO, CapstoneIdeaGenerator.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "Login",
     "RelativePath": "api/Authentication/login",
     "HttpMethod": "POST",
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "Register",
     "RelativePath": "api/Authentication/register",
     "HttpMethod": "POST",
@@ -81,7 +81,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "CapstoneIdeaGenerator.Server.Entities.AuthenticationModels.Admins",
+        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.AdminDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

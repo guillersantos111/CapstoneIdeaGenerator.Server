@@ -1,6 +1,7 @@
 ﻿using CapstoneIdeaGenerator.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CapstoneIdeaGenerator.Server.Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneIdeaGenerator.Server.Controllers
 {
@@ -44,7 +45,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add([FromBody] Capstones capstones)
         {
             await capstoneServices.AddCapstones(capstones);
@@ -53,7 +54,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCapstone(int id, Capstones capstones)
         {
             try
@@ -69,7 +70,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveCapstone(int id)
         {
             try

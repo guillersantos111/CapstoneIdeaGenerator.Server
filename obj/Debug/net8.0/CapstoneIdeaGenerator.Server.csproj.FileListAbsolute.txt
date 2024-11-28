@@ -12,6 +12,7 @@ D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Humanizer.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\MailKit.dll
+D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Microsoft.Build.Locator.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
@@ -49,6 +50,9 @@ D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Microsoft.SqlServer.Se
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\MimeKit.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Mono.TextTemplating.dll
+D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Scrutor.dll
+D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.dll
+D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Projects\CapstoneIdeaGenerator.Server\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll

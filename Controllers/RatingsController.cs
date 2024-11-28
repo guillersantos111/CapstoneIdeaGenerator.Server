@@ -1,6 +1,7 @@
 ﻿using CapstoneIdeaGenerator.Server.Entities.DTOs;
 using CapstoneIdeaGenerator.Server.Entities.Models;
 using CapstoneIdeaGenerator.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CapstoneIdeaGenerator.Server.Controllers
@@ -60,7 +61,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         }
 
 
-        [HttpGet("allDetailes")]
+        [HttpGet("allDetailes"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllRatingsDetailes()
         {
             try
