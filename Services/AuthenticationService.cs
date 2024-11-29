@@ -93,6 +93,44 @@ namespace CapstoneIdeaGenerator.Server.Services
         }
 
 
+        public async Task ResetPassword(string token, string newPassword)
+        {
+            var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.PasswordResetToken == token && a.ResetTokenExpiry > DateTime.UtcNow);
+            if (admin == null)
+            {
+                throw new Exception("Invalid Or Expired Reset Token");
+            }
+
+            CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+            admin.PasswordHash = passwordHash;
+            admin.PasswordSalt = passwordSalt;
+            admin.PasswordResetToken = null;
+            admin.ResetTokenExpiry = null;
+
+            dbContext.Admins.Update(admin);
+            await dbContext.SaveChangesAsync();
+        }
+
+
+        public async Task<string> GeneratePasswordResetToken(AdminForgotPasswordDTO request)
+        {
+            var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == request.Email);
+            if (admin == null)
+            {
+                throw new Exception("Admin Not Found");
+            }
+
+            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            admin.PasswordResetToken = token;
+            admin.ResetTokenExpiry = DateTime.UtcNow.AddHours(1);
+
+            dbContext.Admins.Update(admin);
+            await dbContext.SaveChangesAsync();
+
+            return token;
+        }
+
 
         public string CreateToken(Admins admin)
         {

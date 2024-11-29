@@ -52,7 +52,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return BadRequest(new { ex.Message });
                 }
             }
 
@@ -67,7 +67,42 @@ namespace CapstoneIdeaGenerator.Server.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return BadRequest(new { ex.Message});
+                }
+            }
+
+
+            [HttpPost("forgot-password")]
+            public async Task<IActionResult> ForgotPassword([FromBody] AdminForgotPasswordDTO request)
+            {
+                try
+                {
+                    var token = await authenticationService.GeneratePasswordResetToken(request);
+
+                    return Ok( new 
+                    { 
+                        Message = "Password Reset Token Generated", 
+                        Token = token 
+                    });
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { ex.Message });
+                }
+            }
+
+
+            [HttpPost("reset-password")]
+            public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO request)
+            {
+                try
+                {
+                    await authenticationService.ResetPassword(request.Token, request.NewPassword);
+                    return Ok(new { Message = "Password Has Been Reset Successfully" });
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { ex.Message });
                 }
             }
         }

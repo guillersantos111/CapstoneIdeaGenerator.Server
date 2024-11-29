@@ -25,6 +25,6 @@ namespace CapstoneIdeaGenerator.Server.Entities.AuthenticationModels
 
         public string? PasswordResetToken { get; set; }
 
-        public DateTime ResetTokenExpires { get; set; } = DateTime.UtcNow;
+        public DateTime? ResetTokenExpiry { get; set; } = DateTime.UtcNow;
     }
 }

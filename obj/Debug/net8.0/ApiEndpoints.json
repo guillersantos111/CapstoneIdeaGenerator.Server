@@ -41,6 +41,22 @@
   },
   {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/Authentication/forgot-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.AdminForgotPasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "Login",
     "RelativePath": "api/Authentication/login",
     "HttpMethod": "POST",
@@ -90,6 +106,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/Authentication/reset-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.ResetPasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneController",
