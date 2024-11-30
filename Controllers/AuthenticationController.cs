@@ -58,7 +58,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
 
 
             [HttpPost("login")]
-            public async Task<ActionResult<string>> Login([FromBody]AdminLoginDTO request)
+            public async Task<ActionResult<string>> Login([FromBody] AdminLoginDTO request)
             {
                 try
                 {
@@ -67,7 +67,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(new { ex.Message});
+                    return BadRequest(new { ex.Message });
                 }
             }
 
@@ -79,10 +79,10 @@ namespace CapstoneIdeaGenerator.Server.Controllers
                 {
                     var token = await authenticationService.GeneratePasswordResetToken(request);
 
-                    return Ok( new 
-                    { 
-                        Message = "Password Reset Token Generated", 
-                        Token = token 
+                    return Ok(new
+                    {
+                        Message = "Password Reset Token Generated",
+                        Token = token
                     });
                 }
                 catch (Exception ex)
@@ -103,6 +103,35 @@ namespace CapstoneIdeaGenerator.Server.Controllers
                 catch (Exception ex)
                 {
                     return BadRequest(new { ex.Message });
+                }
+            }
+
+
+            [HttpPut("edit/{email}")]
+            public async Task<IActionResult> EditAdmin(string email, [FromBody] AdminEditAccountDTO adminEdit)
+            {
+                try
+                {
+                    var admin = await authenticationService.EditAdmin(email, adminEdit);
+                    return Ok(admin);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = ex.Message});
+                }
+            }
+
+            [HttpDelete("remove/{email}")]
+            public async Task<IActionResult> RemoveAdmin(string email)
+            {
+                try
+                {
+                    await authenticationService.RemoveAdmin(email);
+                    return Ok(new { message = "Admin Removed Successfully" });
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = ex.Message});
                 }
             }
         }

@@ -2,6 +2,7 @@
 using CapstoneIdeaGenerator.Server.Entities.DTOs;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CapstoneIdeaGenerator.Server.Services.Interfaces
 {
@@ -16,5 +17,7 @@ namespace CapstoneIdeaGenerator.Server.Services.Interfaces
         string CreateToken(Admins admin);
         void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
         bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+        Task<AdminDTO> EditAdmin(string email, AdminEditAccountDTO adminEdit);
+        Task RemoveAdmin(string email);
     }
 }

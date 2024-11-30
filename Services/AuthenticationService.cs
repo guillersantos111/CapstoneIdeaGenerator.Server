@@ -113,6 +113,44 @@ namespace CapstoneIdeaGenerator.Server.Services
         }
 
 
+        public async Task<AdminDTO> EditAdmin(string email, AdminEditAccountDTO adminEdit)
+        {
+            var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
+            if (admin == null)
+            {
+                throw new Exception("Admin Not Found");
+            }
+
+            admin.Name = adminEdit.Name ?? admin.Name;
+            admin.Age = adminEdit.Age ?? admin.Age;
+            admin.Gender = adminEdit.Gender ?? admin.Gender;
+            admin.Email = adminEdit.Email ?? admin.Email;
+
+            dbContext.Admins.Update(admin);
+            await dbContext.SaveChangesAsync();
+
+            return new AdminDTO
+            {
+                Email = admin.Email,
+                Name = admin.Name,
+                Gender = admin.Gender,
+                Age = admin.Age,
+            };
+        }
+
+        public async Task RemoveAdmin(string email)
+        {
+            var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
+            if (admin == null)
+            {
+                throw new Exception("Admin Not Found");
+            }
+
+            dbContext.Admins.Remove(admin);
+            await dbContext.SaveChangesAsync();
+        }
+
+
         public async Task<string> GeneratePasswordResetToken(AdminForgotPasswordDTO request)
         {
             var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == request.Email);
@@ -145,7 +183,12 @@ namespace CapstoneIdeaGenerator.Server.Services
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(1), signingCredentials: credentials);
+            var token = new JwtSecurityToken
+                (
+                claims: claims, 
+                expires: DateTime.Now.AddDays(1), 
+                signingCredentials: credentials
+                );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
