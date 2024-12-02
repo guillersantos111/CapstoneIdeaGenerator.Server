@@ -9,6 +9,7 @@ namespace CapstoneIdeaGenerator.Server.Data.DbContext
         public DbSet<Capstones> Capstones { get; set; }
         public DbSet<Admins> Admins { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
+        public DbSet<ActivityLogs> ActivityLogs { get; set; }
 
         public WebApplicationDbContext(DbContextOptions<WebApplicationDbContext> options) : base(options) { }
 
@@ -17,6 +18,15 @@ namespace CapstoneIdeaGenerator.Server.Data.DbContext
         {
             builder.Entity<Admins>()
                 .HasKey(a => a.AdminId);
+
+            builder.Entity<ActivityLogs>()
+                .HasKey(al => al.ActivityLogsId);
+
+            builder.Entity<ActivityLogs>()
+                .HasOne(al => al.Admins)
+                .WithMany()
+                .HasForeignKey(al => al.AdminId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Capstones>()
                 .HasKey(c => c.CapstoneId);

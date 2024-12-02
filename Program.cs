@@ -15,6 +15,7 @@ builder.Services.AddScoped<ICapstoneServices, CapstoneService>();
 builder.Services.AddScoped<IGeneratorService, GeneratorService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IRatingsService, RatingsService>();
+builder.Services.AddScoped<IActivityLogsService, ActivityLogsService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 

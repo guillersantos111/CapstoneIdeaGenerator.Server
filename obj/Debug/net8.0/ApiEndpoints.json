@@ -1,5 +1,41 @@
 [
   {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsContoller",
+    "Method": "GetActivityLogs",
+    "RelativePath": "api/ActivityLogsContoller/getlogs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[CapstoneIdeaGenerator.Server.Entities.DTOs.ActivityLogsDTO, CapstoneIdeaGenerator.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsContoller",
+    "Method": "LogActivity",
+    "RelativePath": "api/ActivityLogsContoller/log",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.ActivityLogsDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
     "Method": "GetMe",
     "RelativePath": "api/Authentication",
