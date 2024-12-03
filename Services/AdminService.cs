@@ -1,21 +1,22 @@
 ﻿using CapstoneIdeaGenerator.Server.Entities.AuthenticationModels;
 using CapstoneIdeaGenerator.Server.Entities.DTOs;
-using CapstoneIdeaGenerator.Server.Services.Interfaces;
-using CapstoneIdeaGenerator.Server.Data.DbContext;
+using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using CapstoneIdeaGenerator.Server.DbContext;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CapstoneIdeaGenerator.Server.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AdminService : IAdminService
     {
-        private readonly WebApplicationDbContext dbContext;
+        private readonly WebAppDbContext dbContext;
         private readonly IConfiguration configuration;
 
-        public AuthenticationService(WebApplicationDbContext dbContext, IConfiguration configuration)
+        public AdminService(WebAppDbContext dbContext, IConfiguration configuration)
         {
             this.dbContext = dbContext;
             this.configuration = configuration;
@@ -40,6 +41,27 @@ namespace CapstoneIdeaGenerator.Server.Services
                 .ToListAsync();
 
             return accounts;
+        }
+
+
+        public async Task<AdminGetByEmailDTO> GetAdminByEmail(string email)
+        {
+            try
+            {
+                var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
+                if (admin == null) throw new Exception("Admin Not Found");
+
+                return new AdminGetByEmailDTO
+                {
+                    AdminId = admin.AdminId,
+                    Email = admin.Email,
+                    Name = admin.Name
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving admin by email.", ex);
+            }
         }
 
 

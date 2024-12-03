@@ -1,4 +1,4 @@
-﻿using CapstoneIdeaGenerator.Server.Services.Interfaces;
+﻿using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using CapstoneIdeaGenerator.Server.Entities.Models;
 using Microsoft.AspNetCore.Authorization;

@@ -1,6 +1,6 @@
-﻿using CapstoneIdeaGenerator.Server.Data.DbContext;
+﻿using CapstoneIdeaGenerator.Server.DbContext;
 using CapstoneIdeaGenerator.Server.Entities.Models;
-using CapstoneIdeaGenerator.Server.Services.Interfaces;
+using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +8,9 @@ namespace CapstoneIdeaGenerator.Server.Services
 {
     public class GeneratorService : IGeneratorService
     {
-        private readonly WebApplicationDbContext dbContext;
+        private readonly WebAppDbContext dbContext;
 
-        public GeneratorService(WebApplicationDbContext dbContext)
+        public GeneratorService(WebAppDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

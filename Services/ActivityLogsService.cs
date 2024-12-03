@@ -1,34 +1,45 @@
-﻿using CapstoneIdeaGenerator.Server.Data.DbContext;
+﻿using CapstoneIdeaGenerator.Server.DbContext;
 using CapstoneIdeaGenerator.Server.Entities.DTOs;
 using CapstoneIdeaGenerator.Server.Entities.Models;
-using CapstoneIdeaGenerator.Server.Services.Interfaces;
+using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace CapstoneIdeaGenerator.Server.Services
 {
     public class ActivityLogsService : IActivityLogsService
     {
-        private readonly WebApplicationDbContext dbContext;
+        private readonly WebAppDbContext dbContext;
 
-        public ActivityLogsService(WebApplicationDbContext dbContext) 
+        public ActivityLogsService(WebAppDbContext dbContext) 
         {
             this.dbContext = dbContext;
         }
 
 
-        public async Task AddActivityLogs(ActivityLogsDTO request)
+        public async Task RecordLogActivity(int adminId, string name, string email, string action, string details)
         {
-            var log = new ActivityLogs
+            try
             {
-                AdminId = request.AdminId,
-                Name = request.Name,
-                Action = request.Action,
-                Details = request.Details,
-            };
+                var log = new ActivityLogs
+                {
+                    AdminId = adminId,
+                    Email = email,
+                    Name = name,
+                    Action = action,
+                    Details = details,
+                    Timestamp = DateTime.UtcNow
+                };
 
-            dbContext.ActivityLogs.Add(log);
-            await dbContext.SaveChangesAsync();
+                dbContext.ActivityLogs.Add(log);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error adding activity logs: {ex.Message}");
+                throw;
+            }
         }
+
 
 
         public async Task<IEnumerable<ActivityLogsDTO>> GetAllActivityLogs()

@@ -1,6 +1,6 @@
 ﻿using CapstoneIdeaGenerator.Server.Entities.DTOs;
 using CapstoneIdeaGenerator.Server.Entities.Models;
-using CapstoneIdeaGenerator.Server.Services.Interfaces;
+using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

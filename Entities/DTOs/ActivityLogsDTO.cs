@@ -3,6 +3,7 @@
     public class ActivityLogsDTO
     {
         public int AdminId { get; set; }
+        public string Email { get; set; }
         public string Name { get; set; }
         public string Action { get; set; }
         public string Details { get; set; }

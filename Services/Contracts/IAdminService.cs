@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace CapstoneIdeaGenerator.Server.Services.Interfaces
+namespace CapstoneIdeaGenerator.Server.Services.Contracts
 {
-    public interface IAuthenticationService
+    public interface IAdminService
     {
         Task<string> GetMyName();
+        Task<AdminGetByEmailDTO> GetAdminByEmail(string email);
         Task<IEnumerable<AdminDTO>> GetAllAccounts();
         Task<AdminDTO> RegisterAdmin(AdminRegisterDTO request);
         Task<string> LoginAdmin(AdminLoginDTO request);

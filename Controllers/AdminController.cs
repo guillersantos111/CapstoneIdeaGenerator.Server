@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CapstoneIdeaGenerator.Server.Services.Interfaces;
+using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using CapstoneIdeaGenerator.Server.Entities.DTOs;
+using CapstoneIdeaGenerator.Server.Entities.AuthenticationModels;
 
 namespace CapstoneIdeaGenerator.Server.Controllers
 {
@@ -9,20 +10,20 @@ namespace CapstoneIdeaGenerator.Server.Controllers
     {
         [Route("api/[controller]")]
         [ApiController]
-        public class AuthenticationController : ControllerBase
+        public class AdminController : ControllerBase
         {
-            private readonly IAuthenticationService authenticationService;
+            private readonly IAdminService adminService;
 
-            public AuthenticationController(IAuthenticationService authenticationService)
+            public AdminController(IAdminService adminService)
             {
-                this.authenticationService = authenticationService;
+                this.adminService = adminService;
             }
 
 
             [HttpGet, Authorize(Roles = "Admin")]
             public async Task<ActionResult<string>> GetMe()
             {
-                var userName = await authenticationService.GetMyName();
+                var userName = await adminService.GetMyName();
                 return Ok(userName);
             }
 
@@ -32,8 +33,23 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             {
                 try
                 {
-                    var accounts = await authenticationService.GetAllAccounts();
+                    var accounts = await adminService.GetAllAccounts();
                     return Ok(accounts);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Internal Server Error: {ex.Message}");
+                }
+            }
+
+
+            [HttpGet("getbyemail")]
+            public async Task<IActionResult> GetAdminByEmail(string email)
+            {
+                try
+                {
+                    var admin = await adminService.GetAdminByEmail(email);
+                    return Ok(admin);
                 }
                 catch (Exception ex)
                 {
@@ -47,7 +63,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             {
                 try
                 {
-                    var admin = await authenticationService.RegisterAdmin(request);
+                    var admin = await adminService.RegisterAdmin(request);
                     return Ok(admin);
                 }
                 catch (Exception ex)
@@ -62,7 +78,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             {
                 try
                 {
-                    var token = await authenticationService.LoginAdmin(request);
+                    var token = await adminService.LoginAdmin(request);
                     return Ok(token);
                 }
                 catch (Exception ex)
@@ -77,7 +93,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             {
                 try
                 {
-                    var token = await authenticationService.GeneratePasswordResetToken(request);
+                    var token = await adminService.GeneratePasswordResetToken(request);
 
                     return Ok(new
                     {
@@ -97,7 +113,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             {
                 try
                 {
-                    await authenticationService.ResetPassword(request.Token, request.NewPassword);
+                    await adminService.ResetPassword(request.Token, request.NewPassword);
                     return Ok(new { Message = "Password Has Been Reset Successfully" });
                 }
                 catch (Exception ex)
@@ -112,7 +128,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             {
                 try
                 {
-                    var admin = await authenticationService.EditAdmin(email, adminEdit);
+                    var admin = await adminService.EditAdmin(email, adminEdit);
                     return Ok(admin);
                 }
                 catch (Exception ex)
@@ -126,7 +142,7 @@ namespace CapstoneIdeaGenerator.Server.Controllers
             {
                 try
                 {
-                    await authenticationService.RemoveAdmin(email);
+                    await adminService.RemoveAdmin(email);
                     return Ok(new { message = "Admin Removed Successfully" });
                 }
                 catch (Exception ex)

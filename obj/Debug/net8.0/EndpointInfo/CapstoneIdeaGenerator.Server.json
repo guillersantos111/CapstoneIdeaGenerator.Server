@@ -5,10 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/ActivityLogsContoller/log": {
+    "/api/ActivityLogs/log": {
       "post": {
         "tags": [
-          "ActivityLogsContoller"
+          "ActivityLogs"
         ],
         "requestBody": {
           "content": {
@@ -36,10 +36,10 @@
         }
       }
     },
-    "/api/ActivityLogsContoller/getlogs": {
+    "/api/ActivityLogs/getlogs": {
       "get": {
         "tags": [
-          "ActivityLogsContoller"
+          "ActivityLogs"
         ],
         "responses": {
           "200": {
@@ -70,103 +70,135 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/Admin": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/Admin/accounts": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/Admin/getbyemail": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
-    "/api/Authentication": {
-      "get": {
-        "tags": [
-          "Authentication"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "oauth2": [ ]
-          }
-        ]
-      }
-    },
-    "/api/Authentication/accounts": {
-      "get": {
-        "tags": [
-          "Authentication"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AdminDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AdminDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AdminDTO"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "oauth2": [ ]
-          }
-        ]
-      }
-    },
-    "/api/Authentication/register": {
+    "/api/Admin/register": {
       "post": {
         "tags": [
-          "Authentication"
+          "Admin"
         ],
         "requestBody": {
           "content": {
@@ -222,10 +254,10 @@
         ]
       }
     },
-    "/api/Authentication/login": {
+    "/api/Admin/login": {
       "post": {
         "tags": [
-          "Authentication"
+          "Admin"
         ],
         "requestBody": {
           "content": {
@@ -270,10 +302,10 @@
         }
       }
     },
-    "/api/Authentication/forgot-password": {
+    "/api/Admin/forgot-password": {
       "post": {
         "tags": [
-          "Authentication"
+          "Admin"
         ],
         "requestBody": {
           "content": {
@@ -301,10 +333,10 @@
         }
       }
     },
-    "/api/Authentication/reset-password": {
+    "/api/Admin/reset-password": {
       "post": {
         "tags": [
-          "Authentication"
+          "Admin"
         ],
         "requestBody": {
           "content": {
@@ -332,10 +364,10 @@
         }
       }
     },
-    "/api/Authentication/edit/{email}": {
+    "/api/Admin/edit/{email}": {
       "put": {
         "tags": [
-          "Authentication"
+          "Admin"
         ],
         "parameters": [
           {
@@ -373,10 +405,10 @@
         }
       }
     },
-    "/api/Authentication/remove/{email}": {
+    "/api/Admin/remove/{email}": {
       "delete": {
         "tags": [
-          "Authentication"
+          "Admin"
         ],
         "parameters": [
           {
@@ -795,6 +827,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
           "name": {
             "type": "string",
             "nullable": true
@@ -818,6 +854,10 @@
       "AdminDTO": {
         "type": "object",
         "properties": {
+          "adminId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "name": {
             "type": "string",
             "nullable": true

@@ -1,18 +1,18 @@
-﻿using CapstoneIdeaGenerator.Server.Services.Interfaces;
+﻿using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using CapstoneIdeaGenerator.Server.Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 using CapstoneIdeaGenerator.Server.Entities.Models;
+using CapstoneIdeaGenerator.Server.DbContext;
 
 namespace CapstoneIdeaGenerator.Server.Services
 {
     public class CapstoneService : ICapstoneServices
     {
-        private readonly WebApplicationDbContext dbContext;
+        private readonly WebAppDbContext dbContext;
 
         public CapstoneService
             (
-                WebApplicationDbContext dbContext
+                WebAppDbContext dbContext
             )
         {
             this.dbContext = dbContext;

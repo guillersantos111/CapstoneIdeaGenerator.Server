@@ -1,8 +1,8 @@
 [
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsContoller",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsController",
     "Method": "GetActivityLogs",
-    "RelativePath": "api/ActivityLogsContoller/getlogs",
+    "RelativePath": "api/ActivityLogs/getlogs",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -20,15 +20,15 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsContoller",
-    "Method": "LogActivity",
-    "RelativePath": "api/ActivityLogsContoller/log",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.ActivityLogsController",
+    "Method": "RecordLogActivity",
+    "RelativePath": "api/ActivityLogs/log",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
+        "Name": "logs",
         "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.ActivityLogsDTO",
         "IsRequired": true
       }
@@ -36,9 +36,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "GetMe",
-    "RelativePath": "api/Authentication",
+    "RelativePath": "api/Admin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -56,9 +56,9 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "GetAllAccounts",
-    "RelativePath": "api/Authentication/accounts",
+    "RelativePath": "api/Admin/accounts",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -76,9 +76,9 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "EditAdmin",
-    "RelativePath": "api/Authentication/edit/{email}",
+    "RelativePath": "api/Admin/edit/{email}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -97,9 +97,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "ForgotPassword",
-    "RelativePath": "api/Authentication/forgot-password",
+    "RelativePath": "api/Admin/forgot-password",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -113,9 +113,25 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
+    "Method": "GetAdminByEmail",
+    "RelativePath": "api/Admin/getbyemail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "Login",
-    "RelativePath": "api/Authentication/login",
+    "RelativePath": "api/Admin/login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -139,9 +155,9 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "Register",
-    "RelativePath": "api/Authentication/register",
+    "RelativePath": "api/Admin/register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -165,9 +181,9 @@
     ]
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "RemoveAdmin",
-    "RelativePath": "api/Authentication/remove/{email}",
+    "RelativePath": "api/Admin/remove/{email}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -181,9 +197,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AuthenticationController",
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "ResetPassword",
-    "RelativePath": "api/Authentication/reset-password",
+    "RelativePath": "api/Admin/reset-password",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

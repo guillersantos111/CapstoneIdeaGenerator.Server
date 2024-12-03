@@ -1,11 +1,11 @@
 ﻿using CapstoneIdeaGenerator.Server.Entities.DTOs;
 using CapstoneIdeaGenerator.Server.Entities.Models;
 
-namespace CapstoneIdeaGenerator.Server.Services.Interfaces
+namespace CapstoneIdeaGenerator.Server.Services.Contracts
 {
     public interface IActivityLogsService
     {
-        Task AddActivityLogs(ActivityLogsDTO request);
+        Task RecordLogActivity(int adminId, string name, string email, string action, string details);
         Task<IEnumerable<ActivityLogsDTO>> GetAllActivityLogs();
     }
 }

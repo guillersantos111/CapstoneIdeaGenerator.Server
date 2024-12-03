@@ -1,19 +1,19 @@
-using CapstoneIdeaGenerator.Server.Data.DbContext;
 using CapstoneIdeaGenerator.Server.Services;
-using CapstoneIdeaGenerator.Server.Services.Interfaces;
+using CapstoneIdeaGenerator.Server.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using CapstoneIdeaGenerator.Server.DbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddScoped<ICapstoneServices, CapstoneService>();
 builder.Services.AddScoped<IGeneratorService, GeneratorService>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IRatingsService, RatingsService>();
 builder.Services.AddScoped<IActivityLogsService, ActivityLogsService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
@@ -23,7 +23,7 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddControllers();
 
 
-builder.Services.AddDbContext<WebApplicationDbContext>(options =>
+builder.Services.AddDbContext<WebAppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

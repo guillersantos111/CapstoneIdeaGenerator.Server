@@ -1,7 +1,7 @@
-﻿using CapstoneIdeaGenerator.Server.Data;
+﻿using CapstoneIdeaGenerator.Server.DbContext;
 using CapstoneIdeaGenerator.Server.Entities.Models;
 
-namespace CapstoneIdeaGenerator.Server.Services.Interfaces
+namespace CapstoneIdeaGenerator.Server.Services.Contracts
 {
     public interface ICapstoneServices
     {

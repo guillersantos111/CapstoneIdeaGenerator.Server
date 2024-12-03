@@ -2,16 +2,16 @@
 using CapstoneIdeaGenerator.Server.Entities.AuthenticationModels;
 using CapstoneIdeaGenerator.Server.Entities.Models;
 
-namespace CapstoneIdeaGenerator.Server.Data.DbContext
+namespace CapstoneIdeaGenerator.Server.DbContext
 {
-    public class WebApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class WebAppDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<Capstones> Capstones { get; set; }
         public DbSet<Admins> Admins { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
         public DbSet<ActivityLogs> ActivityLogs { get; set; }
 
-        public WebApplicationDbContext(DbContextOptions<WebApplicationDbContext> options) : base(options) { }
+        public WebAppDbContext(DbContextOptions<WebAppDbContext> options) : base(options) { }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
