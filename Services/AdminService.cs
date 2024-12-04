@@ -67,9 +67,11 @@ namespace CapstoneIdeaGenerator.Server.Services
 
         public async Task<AdminDTO> RegisterAdmin(AdminRegisterDTO request)
         {
-            var existingAdmin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == request.Email);
+            var existingAdmin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == request.Email || a.Name == request.Name);
             if (existingAdmin != null)
-                throw new Exception("Admin with this email already exists.");
+            {
+                throw new Exception("Admin with this name or email already exists.");
+            }
 
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -97,18 +99,52 @@ namespace CapstoneIdeaGenerator.Server.Services
             };
         }
 
+        public async Task RemoveAdmin(string email)
+        {
+            try
+            {
+                var admin = await dbContext.Admins
+                    .AsTracking()
+                    .FirstOrDefaultAsync(a => a.Email == email);
+
+                if (admin != null)
+                {
+                    Console.WriteLine($"Found admin: {admin.Name}");
+
+                    var logs = dbContext.ActivityLogs.Where(a => a.Email == email);
+                    dbContext.ActivityLogs.RemoveRange(logs);
+                    await dbContext.SaveChangesAsync();
+
+                    dbContext.Admins.Remove(admin);
+                    await dbContext.SaveChangesAsync();
+
+                    Console.WriteLine($"Admin {admin.Name} removed successfully.");
+                }
+                else
+                {
+                    Console.WriteLine($"Admin with ID {email} not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing admin: {ex.Message}");
+                throw;
+            }
+        }
+
+
 
         public async Task<string> LoginAdmin(AdminLoginDTO request)
         {
             var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == request.Email);
             if (admin == null)
-            { 
-                throw new Exception("Admin Not Found"); 
+            {
+                throw new Exception("Admin Not Found");
             }
 
             if (!VerifyPasswordHash(request.Password, admin.PasswordHash, admin.PasswordSalt))
             {
-                throw new Exception("Incorrect Password"); 
+                throw new Exception("Incorrect Password");
             }
 
             return CreateToken(admin);
@@ -131,44 +167,6 @@ namespace CapstoneIdeaGenerator.Server.Services
             admin.ResetTokenExpiry = null;
 
             dbContext.Admins.Update(admin);
-            await dbContext.SaveChangesAsync();
-        }
-
-
-        public async Task<AdminDTO> EditAdmin(string email, AdminEditAccountDTO adminEdit)
-        {
-            var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
-            if (admin == null)
-            {
-                throw new Exception("Admin Not Found");
-            }
-
-            admin.Name = adminEdit.Name ?? admin.Name;
-            admin.Age = adminEdit.Age ?? admin.Age;
-            admin.Gender = adminEdit.Gender ?? admin.Gender;
-            admin.Email = adminEdit.Email ?? admin.Email;
-
-            dbContext.Admins.Update(admin);
-            await dbContext.SaveChangesAsync();
-
-            return new AdminDTO
-            {
-                Email = admin.Email,
-                Name = admin.Name,
-                Gender = admin.Gender,
-                Age = admin.Age,
-            };
-        }
-
-        public async Task RemoveAdmin(string email)
-        {
-            var admin = await dbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
-            if (admin == null)
-            {
-                throw new Exception("Admin Not Found");
-            }
-
-            dbContext.Admins.Remove(admin);
             await dbContext.SaveChangesAsync();
         }
 
@@ -207,8 +205,8 @@ namespace CapstoneIdeaGenerator.Server.Services
 
             var token = new JwtSecurityToken
                 (
-                claims: claims, 
-                expires: DateTime.Now.AddDays(1), 
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials
                 );
 

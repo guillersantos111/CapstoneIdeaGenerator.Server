@@ -77,27 +77,6 @@
   },
   {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
-    "Method": "EditAdmin",
-    "RelativePath": "api/Admin/edit/{email}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "adminEdit",
-        "Type": "CapstoneIdeaGenerator.Server.Entities.DTOs.AdminEditAccountDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneIdeaGenerator.Server.Controllers.AdminController",
     "Method": "ForgotPassword",
     "RelativePath": "api/Admin/forgot-password",
     "HttpMethod": "POST",

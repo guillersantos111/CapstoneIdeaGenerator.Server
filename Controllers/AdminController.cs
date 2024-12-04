@@ -68,9 +68,30 @@ namespace CapstoneIdeaGenerator.Server.Controllers
                 }
                 catch (Exception ex)
                 {
+                    if (ex.Message.Contains("Admin Already Exist"))
+                    {
+                        return BadRequest(new { Message = "Admin With This Name Or Email Already Exists"});
+                    }
+
                     return BadRequest(new { ex.Message });
                 }
             }
+
+
+            [HttpDelete("remove/{email}")]
+            public async Task<IActionResult> RemoveAdmin(string email)
+            {
+                try
+                {
+                    await adminService.RemoveAdmin(email);
+                    return Ok(new { message = "Admin Removed Successfully" });
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = ex.Message });
+                }
+            }
+
 
 
             [HttpPost("login")]
@@ -119,35 +140,6 @@ namespace CapstoneIdeaGenerator.Server.Controllers
                 catch (Exception ex)
                 {
                     return BadRequest(new { ex.Message });
-                }
-            }
-
-
-            [HttpPut("edit/{email}")]
-            public async Task<IActionResult> EditAdmin(string email, [FromBody] AdminEditAccountDTO adminEdit)
-            {
-                try
-                {
-                    var admin = await adminService.EditAdmin(email, adminEdit);
-                    return Ok(admin);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { message = ex.Message});
-                }
-            }
-
-            [HttpDelete("remove/{email}")]
-            public async Task<IActionResult> RemoveAdmin(string email)
-            {
-                try
-                {
-                    await adminService.RemoveAdmin(email);
-                    return Ok(new { message = "Admin Removed Successfully" });
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { message = ex.Message});
                 }
             }
         }

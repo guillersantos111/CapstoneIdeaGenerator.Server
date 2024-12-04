@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CapstoneIdeaGenerator.Server.Entities.DTOs
 {
@@ -16,7 +15,7 @@ namespace CapstoneIdeaGenerator.Server.Entities.DTOs
 
         public DateTime DateJoined { get; set; } = DateTime.UtcNow;
 
-        [Required, EmailAddress]
+        [Required]
         public string Email { get; set; } = string.Empty;
 
         public string Password { get; set; } = string.Empty;

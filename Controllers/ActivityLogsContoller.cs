@@ -42,9 +42,6 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         }
 
 
-
-
-
         [HttpGet("getlogs"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<ActivityLogsDTO>>> GetActivityLogs()
         {

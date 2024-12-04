@@ -79,6 +79,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseDeveloperExceptionPage();
+
 app.UseCors("AllowAllOrigins");
 
 app.UseWebSockets();
