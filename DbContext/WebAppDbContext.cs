@@ -33,8 +33,9 @@ namespace CapstoneIdeaGenerator.Server.DbContext
 
             builder.Entity<Capstones>()
                 .HasMany(c => c.Ratings)
-                .WithOne()
-                .IsRequired(false);
+                .WithOne(r => r.Capstones)
+                .HasForeignKey(r => r.CapstoneId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Ratings>()
                 .HasKey(r => r.RatingId);
@@ -42,7 +43,8 @@ namespace CapstoneIdeaGenerator.Server.DbContext
             builder.Entity<Ratings>()
                 .HasOne(r => r.Capstones)
                 .WithMany(c => c.Ratings)
-                .HasForeignKey(r => r.CapstoneId);
+                .HasForeignKey(r => r.CapstoneId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
