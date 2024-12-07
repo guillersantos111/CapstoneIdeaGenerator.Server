@@ -464,6 +464,27 @@
         ]
       }
     },
+    "/api/Capstone/filter": {
+      "get": {
+        "tags": [
+          "Capstone"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Capstone/{id}": {
       "get": {
         "tags": [

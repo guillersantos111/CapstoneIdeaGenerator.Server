@@ -7,6 +7,7 @@ namespace CapstoneIdeaGenerator.Server.Services.Contracts
     {
         Task<IEnumerable<Capstones>> GetAllCapstones();
         Task<Capstones> GetCapstonesById(int id);
+        Task<IEnumerable<Capstones>> GetFilteredCapstones(string query);
         Task<Capstones> AddCapstones(Capstones capstones);
         Task<Capstones> UpdateCapstones(int id, Capstones capstones);
         Task<bool> RemoveCapstones(int id);

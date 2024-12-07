@@ -291,6 +291,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.CapstoneController",
+    "Method": "GetFilteredCapstones",
+    "RelativePath": "api/Capstone/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CapstoneIdeaGenerator.Server.Controllers.GeneratorController",
     "Method": "GetAllCategories",
     "RelativePath": "api/Generator/categories",

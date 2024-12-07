@@ -19,16 +19,26 @@ namespace CapstoneIdeaGenerator.Server.Services
         }
 
 
-        public async Task<IEnumerable<Capstones>> GetAllCapstones()
-        {
-            return await dbContext.Capstones.ToListAsync();
-        }
-
         public async Task<Capstones> GetCapstonesById(int id)
         {
             return await dbContext.Capstones.FindAsync(id);
         }
 
+
+        public async Task<IEnumerable<Capstones>> GetAllCapstones()
+        {
+            return await dbContext.Capstones.ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<Capstones>> GetFilteredCapstones(string? query)
+        {
+            var capstones = await dbContext.Capstones
+                .Where(c => EF.Functions.Like(c.Title, $"%{query}%"))
+                .ToListAsync();
+
+            return capstones;
+        }
 
         public async Task<Capstones> AddCapstones([FromBody] Capstones capstones)
         {

@@ -36,6 +36,24 @@ namespace CapstoneIdeaGenerator.Server.Controllers
         }
 
 
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredCapstones([FromQuery] string query)
+        {
+            try
+            {
+                var capstones = string.IsNullOrWhiteSpace(query)
+                    ? await capstoneServices.GetAllCapstones()
+                    : await capstoneServices.GetFilteredCapstones(query);
+
+                return Ok(capstones);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Capstones>> GetCapstoneById(int id)
         {
